@@ -2,40 +2,47 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed. Use POST.' });
+        return res.status(405).json({ error: 'Method Not Allowed. Please use the web interface.' });
     }
 
     const { question } = req.body;
 
     if (!question) {
-        return res.status(400).json({ error: 'Question is required.' });
+        return res.status(400).json({ error: 'Question is missing.' });
     }
 
     try {
-        const githubRawUrl = process.env.GITHUB_RAW_URL;
-        const githubToken = process.env.GITHUB_TOKEN; 
+        const key = process.env.GEMINI_API_KEY;
+        const url = process.env.GITHUB_RAW_URL;
 
-        const fetchOptions = githubToken ? { headers: { Authorization: `token ${githubToken}` } } : {};
-        const fileResponse = await fetch(githubRawUrl, fetchOptions);
+        if (!key) {
+            return res.status(500).json({ error: 'System Error: GEMINI_API_KEY is missing in Vercel Environment Variables.' });
+        }
+        if (!url) {
+            return res.status(500).json({ error: 'System Error: GITHUB_RAW_URL is missing in Vercel Environment Variables.' });
+        }
+
+        const fileResponse = await fetch(url);
 
         if (!fileResponse.ok) {
-            throw new Error(`GitHub fetch failed: ${fileResponse.statusText}`);
+            return res.status(500).json({ error: `GitHub Fetch Error: Code ${fileResponse.status}. Please check if GITHUB_RAW_URL is a valid raw text link.` });
         }
 
         const context = await fileResponse.text();
 
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const genAI = new GoogleGenerativeAI(key);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `You are a precise reading comprehension assistant. Answer the question based strictly on the provided context. If the answer is not in the context, explicitly state that you cannot find the answer in the provided text.\n\n[Context Start]\n${context}\n[Context End]\n\nQuestion: ${question}`;
+        const prompt = `Context: ${context}\n\nQuestion: ${question}`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
 
         res.status(200).json({ answer: text });
-    } catch (error) {
-        console.error("Server Error:", error);
-        res.status(500).json({ error: 'Failed to process request. Check server logs, API Key, or GitHub configuration.' });
+
+    } catch (err) {
+        console.error("Execution Error:", err);
+        res.status(500).json({ error: `API Error: ${err.message}` });
     }
 }
