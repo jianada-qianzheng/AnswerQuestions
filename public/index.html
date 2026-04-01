@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini 文本问答助手</title>
+    <title>Gemini Text Assistant</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; color: #333; }
         h2 { text-align: center; color: #2c3e50; }
@@ -18,18 +18,18 @@
     </style>
 </head>
 <body>
-    <h2>Gemini 文本问答助手</h2>
+    <h2>Gemini Text Assistant</h2>
     <div class="container">
-        <label for="context">1. 粘贴参考文本：</label>
-        <textarea id="context" placeholder="请在这里粘贴您希望 AI 阅读的背景资料或文章..."></textarea>
+        <label for="context">1. Reference Text:</label>
+        <textarea id="context" placeholder="Paste the background text or article here..."></textarea>
 
-        <label for="question">2. 提出您的问题：</label>
-        <input type="text" id="question" placeholder="例如：这篇文章的主要观点是什么？" />
+        <label for="question">2. Your Question:</label>
+        <input type="text" id="question" placeholder="e.g., What is the main idea of this article?" />
 
-        <button id="askBtn">提交问题</button>
+        <button id="askBtn">Submit Question</button>
 
-        <label>3. AI 回答：</label>
-        <div id="result-container">等待提问...</div>
+        <label>3. AI Answer:</label>
+        <div id="result-container">Awaiting input...</div>
     </div>
 
     <script>
@@ -40,16 +40,15 @@
             const askBtn = document.getElementById('askBtn');
 
             if (!contextText || !questionText) {
-                alert("请完整填写参考文本和您的问题！");
+                alert("Please fill in both the reference text and your question!");
                 return;
             }
 
             askBtn.disabled = true;
-            askBtn.innerText = "AI 正在思考中...";
-            resultDiv.innerText = "请求已发送，请稍候...";
+            askBtn.innerText = "Processing...";
+            resultDiv.innerText = "Request sent, please wait...";
 
             try {
-                // 调用 Vercel 的后端接口
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
@@ -66,14 +65,14 @@
                 if (response.ok) {
                     resultDiv.innerText = data.answer;
                 } else {
-                    resultDiv.innerText = `错误: ${data.error}`;
+                    resultDiv.innerText = `Error: ${data.error}`;
                 }
             } catch (error) {
-                console.error("请求失败:", error);
-                resultDiv.innerText = "发生网络错误，请稍后重试。";
+                console.error("Request failed:", error);
+                resultDiv.innerText = "Network error occurred. Please try again later.";
             } finally {
                 askBtn.disabled = false;
-                askBtn.innerText = "提交问题";
+                askBtn.innerText = "Submit Question";
             }
         });
     </script>
