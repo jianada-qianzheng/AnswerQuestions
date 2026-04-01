@@ -1,8 +1,8 @@
 {
-  "name": "gemini-vercel-app",
-  "version": "1.0.0",
+  "name": "gemini-qa-app",
+  "version": "1.0.1",
   "type": "module",
   "dependencies": {
-    "@google/generative-ai": "^0.2.1"
+    "@google/generative-ai": "^0.11.0"
   }
 }
