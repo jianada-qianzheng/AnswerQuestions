@@ -30,48 +30,49 @@
         <label>AI Answer:</label>
         <div id="result-container">Awaiting input...</div>
     </div>
+<script>
+    document.getElementById('askBtn').addEventListener('click', async () => {
+        const questionText = document.getElementById('question').value.trim();
+        const resultDiv = document.getElementById('result-container');
+        const askBtn = document.getElementById('askBtn');
 
-    <script>
-        document.getElementById('askBtn').addEventListener('click', async () => {
-            const questionText = document.getElementById('question').value.trim();
-            const resultDiv = document.getElementById('result-container');
-            const askBtn = document.getElementById('askBtn');
+        if (!questionText) {
+            alert("Please enter a question!");
+            return;
+        }
 
-            if (!questionText) {
-                alert("Please enter a question!");
-                return;
+        askBtn.disabled = true;
+        askBtn.innerText = "Processing...";
+        resultDiv.innerText = "Request sent...";
+
+        try {
+            // 关键点：必须使用 POST 方法，并发送 JSON 数据
+            const response = await fetch('/api/chat', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    question: questionText
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                resultDiv.innerText = data.answer;
+            } else {
+                // 如果后端报错，这里会显示具体的错误原因
+                resultDiv.innerText = `Error: ${data.error}`;
             }
-
-            askBtn.disabled = true;
-            askBtn.innerText = "Processing...";
-            resultDiv.innerText = "Request sent, analyzing backend document...";
-
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        question: questionText
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    resultDiv.innerText = data.answer;
-                } else {
-                    resultDiv.innerText = `Error: ${data.error}`;
-                }
-            } catch (error) {
-                console.error("Request failed:", error);
-                resultDiv.innerText = "Network error occurred. Please try again later.";
-            } finally {
-                askBtn.disabled = false;
-                askBtn.innerText = "Submit Question";
-            }
-        });
-    </script>
+        } catch (error) {
+            console.error("Request failed:", error);
+            resultDiv.innerText = "Network error. Check your connection.";
+        } finally {
+            askBtn.disabled = false;
+            askBtn.innerText = "Submit Question";
+        }
+    });
+</script>
 </body>
 </html>
