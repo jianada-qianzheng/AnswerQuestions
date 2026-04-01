@@ -3,76 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Knowledge Assistant</title>
+    <title>Gemini Assistant</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; color: #333; }
-        h2 { text-align: center; color: #2c3e50; }
-        .container { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .info-text { color: #666; font-size: 14px; margin-bottom: 20px; text-align: center; font-style: italic; }
-        label { font-weight: bold; display: block; margin-bottom: 8px; margin-top: 15px; }
-        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; padding: 12px; margin-top: 20px; background-color: #1a73e8; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #1557b0; }
-        button:disabled { background-color: #a0c3ff; cursor: not-allowed; }
-        #result-container { margin-top: 25px; padding: 15px; background-color: #e8f0fe; border-radius: 6px; border-left: 4px solid #1a73e8; min-height: 60px; white-space: pre-wrap; line-height: 1.6; }
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background: #f0f2f5; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:disabled { background: #ccc; }
+        #output { margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 6px; white-space: pre-wrap; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <h2>Gemini Knowledge Assistant</h2>
-    <div class="container">
-        <p class="info-text">The knowledge base is securely loaded from the backend.</p>
+    <div class="card">
+        <h2>Knowledge Assistant</h2>
+        <p style="color: #666; font-size: 0.9em;">Ask a question based on the backend document.</p>
+        
+        <input type="text" id="userInput" placeholder="Type your question here...">
+        <button id="sendBtn">Ask Gemini</button>
 
-        <label for="question">Your Question:</label>
-        <input type="text" id="question" placeholder="Ask something about the document..." />
-
-        <button id="askBtn">Submit Question</button>
-
-        <label>AI Answer:</label>
-        <div id="result-container">Awaiting input...</div>
+        <div id="output">Result will appear here...</div>
     </div>
-<script>
-    document.getElementById('askBtn').addEventListener('click', async () => {
-        const questionText = document.getElementById('question').value.trim();
-        const resultDiv = document.getElementById('result-container');
-        const askBtn = document.getElementById('askBtn');
 
-        if (!questionText) {
-            alert("Please enter a question!");
-            return;
-        }
+    <script>
+        const sendBtn = document.getElementById('sendBtn');
+        const userInput = document.getElementById('userInput');
+        const output = document.getElementById('output');
 
-        askBtn.disabled = true;
-        askBtn.innerText = "Processing...";
-        resultDiv.innerText = "Request sent...";
+        sendBtn.addEventListener('click', async () => {
+            const question = userInput.value.trim();
+            if (!question) return;
 
-        try {
-            // 关键点：必须使用 POST 方法，并发送 JSON 数据
-            const response = await fetch('/api/chat', {
-                method: 'POST', 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    question: questionText
-                })
-            });
+            sendBtn.disabled = true;
+            sendBtn.innerText = "Thinking...";
+            output.innerText = "Requesting server...";
 
-            const data = await response.json();
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
 
-            if (response.ok) {
-                resultDiv.innerText = data.answer;
-            } else {
-                // 如果后端报错，这里会显示具体的错误原因
-                resultDiv.innerText = `Error: ${data.error}`;
+                const data = await res.json();
+                if (res.ok) {
+                    output.innerText = data.answer;
+                } else {
+                    output.innerText = "Error: " + data.error;
+                }
+            } catch (err) {
+                output.innerText = "Network Error.";
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerText = "Ask Gemini";
             }
-        } catch (error) {
-            console.error("Request failed:", error);
-            resultDiv.innerText = "Network error. Check your connection.";
-        } finally {
-            askBtn.disabled = false;
-            askBtn.innerText = "Submit Question";
-        }
-    });
-</script>
+        });
+    </script>
 </body>
 </html>
