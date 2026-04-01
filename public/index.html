@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini 文本问答助手</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; color: #333; }
+        h2 { text-align: center; color: #2c3e50; }
+        .container { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: block; margin-bottom: 8px; margin-top: 15px; }
+        textarea, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        textarea { height: 180px; resize: vertical; }
+        button { width: 100%; padding: 12px; margin-top: 20px; background-color: #1a73e8; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #1557b0; }
+        button:disabled { background-color: #a0c3ff; cursor: not-allowed; }
+        #result-container { margin-top: 25px; padding: 15px; background-color: #e8f0fe; border-radius: 6px; border-left: 4px solid #1a73e8; min-height: 60px; white-space: pre-wrap; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <h2>Gemini 文本问答助手</h2>
+    <div class="container">
+        <label for="context">1. 粘贴参考文本：</label>
+        <textarea id="context" placeholder="请在这里粘贴您希望 AI 阅读的背景资料或文章..."></textarea>
+
+        <label for="question">2. 提出您的问题：</label>
+        <input type="text" id="question" placeholder="例如：这篇文章的主要观点是什么？" />
+
+        <button id="askBtn">提交问题</button>
+
+        <label>3. AI 回答：</label>
+        <div id="result-container">等待提问...</div>
+    </div>
+
+    <script>
+        document.getElementById('askBtn').addEventListener('click', async () => {
+            const contextText = document.getElementById('context').value.trim();
+            const questionText = document.getElementById('question').value.trim();
+            const resultDiv = document.getElementById('result-container');
+            const askBtn = document.getElementById('askBtn');
+
+            if (!contextText || !questionText) {
+                alert("请完整填写参考文本和您的问题！");
+                return;
+            }
+
+            askBtn.disabled = true;
+            askBtn.innerText = "AI 正在思考中...";
+            resultDiv.innerText = "请求已发送，请稍候...";
+
+            try {
+                // 调用 Vercel 的后端接口
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        context: contextText,
+                        question: questionText
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerText = data.answer;
+                } else {
+                    resultDiv.innerText = `错误: ${data.error}`;
+                }
+            } catch (error) {
+                console.error("请求失败:", error);
+                resultDiv.innerText = "发生网络错误，请稍后重试。";
+            } finally {
+                askBtn.disabled = false;
+                askBtn.innerText = "提交问题";
+            }
+        });
+    </script>
+</body>
+</html>
