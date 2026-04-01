@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Text Assistant</title>
+    <title>Gemini Knowledge Assistant</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; color: #333; }
         h2 { text-align: center; color: #2c3e50; }
         .container { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .info-text { color: #666; font-size: 14px; margin-bottom: 20px; text-align: center; font-style: italic; }
         label { font-weight: bold; display: block; margin-bottom: 8px; margin-top: 15px; }
-        textarea, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        textarea { height: 180px; resize: vertical; }
+        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
         button { width: 100%; padding: 12px; margin-top: 20px; background-color: #1a73e8; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         button:hover { background-color: #1557b0; }
         button:disabled { background-color: #a0c3ff; cursor: not-allowed; }
@@ -18,35 +18,33 @@
     </style>
 </head>
 <body>
-    <h2>Gemini Text Assistant</h2>
+    <h2>Gemini Knowledge Assistant</h2>
     <div class="container">
-        <label for="context">1. Reference Text:</label>
-        <textarea id="context" placeholder="Paste the background text or article here..."></textarea>
+        <p class="info-text">The knowledge base is securely loaded from the backend.</p>
 
-        <label for="question">2. Your Question:</label>
-        <input type="text" id="question" placeholder="e.g., What is the main idea of this article?" />
+        <label for="question">Your Question:</label>
+        <input type="text" id="question" placeholder="Ask something about the document..." />
 
         <button id="askBtn">Submit Question</button>
 
-        <label>3. AI Answer:</label>
+        <label>AI Answer:</label>
         <div id="result-container">Awaiting input...</div>
     </div>
 
     <script>
         document.getElementById('askBtn').addEventListener('click', async () => {
-            const contextText = document.getElementById('context').value.trim();
             const questionText = document.getElementById('question').value.trim();
             const resultDiv = document.getElementById('result-container');
             const askBtn = document.getElementById('askBtn');
 
-            if (!contextText || !questionText) {
-                alert("Please fill in both the reference text and your question!");
+            if (!questionText) {
+                alert("Please enter a question!");
                 return;
             }
 
             askBtn.disabled = true;
             askBtn.innerText = "Processing...";
-            resultDiv.innerText = "Request sent, please wait...";
+            resultDiv.innerText = "Request sent, analyzing backend document...";
 
             try {
                 const response = await fetch('/api/chat', {
@@ -55,7 +53,6 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        context: contextText,
                         question: questionText
                     })
                 });
