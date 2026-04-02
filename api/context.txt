@@ -1,1 +1,81 @@
-Weizhi is a programmer at OAG
+{
+  "helpDeskKnowledgeBase": [
+    {
+      "id": "KB-001",
+      "category": "Human Resources",
+      "topic": "Onboarding Forms",
+      "question": "What forms do new employees need to fill out?",
+      "answer": "New employees need to complete the following main forms: 1. Employee Basic Profile & Emergency Contact Registration Form; 2. Federal and Provincial Tax Return Forms (TD1); 3. Direct Deposit Authorization (requires a void cheque or bank letter); 4. Non-Disclosure and Intellectual Property Agreement (NDA); 5. Workplace Code of Conduct Acknowledgment. All electronic forms can be found in the \"Onboarding\" section of the internal HR portal (https://hr.internal.corp). Please complete the electronic signatures and submit them within three days prior to your start date."
+    },
+    {
+      "id": "KB-002",
+      "category": "IT Support",
+      "topic": "Ticketing System",
+      "question": "On which website should new employees submit an IT ticket when they encounter a problem?",
+      "answer": "If you encounter any technical issues, need to request software permissions, or report equipment failure, please visit our IT Service Management Portal: https://helpdesk.internal.corp. After logging in with your company Single Sign-On (SSO) account, click \"Submit a Request\" in the top right corner. Please describe your issue as precisely as possible in the ticket. For urgent situations that block your work (such as an account lockout or a company-wide network outage), you can directly call the internal IT Helpdesk hotline: extension 4357 (HELP)."
+    },
+    {
+      "id": "KB-003",
+      "category": "Office Facilities",
+      "topic": "Kitchen Rules",
+      "question": "What are the instructions and rules for using the company pantry and kitchen?",
+      "answer": "To maintain a sanitary dining environment, please observe the following pantry etiquette: 1. **Fridge Clean-out**: The administration team will regularly clean out the refrigerators every Friday at 5:00 PM. Please make sure to take away your personal food and containers before then; any uncleaned items past this time will be discarded. 2. **Microwave**: Please always use the microwave splatter cover when heating food; if spills occur, please wipe them clean immediately using the cleaning wipes nearby. 3. **Coffee Machine**: The fully automatic espresso machine is free for everyone to use. If you notice that coffee beans or milk are running out, or if the machine shows an error, please leave a message in the #office-management channel on the internal communication app. 4. **Utensils**: Please place used mugs and shared utensils directly into the dishwasher; piling them in the sink is strictly prohibited."
+    },
+    {
+      "id": "KB-004",
+      "category": "IT Support",
+      "topic": "Hardware Allocation",
+      "question": "How do new employees collect their work computers and other IT peripherals?",
+      "answer": "Standard IT equipment for new employees (including a laptop, external monitor, keyboard, mouse, and headset) will be ready on your first day. When your direct manager submitted the onboarding approval, the system automatically triggered the hardware provisioning process. At 11:00 AM on your first day, please bring your government-issued photo ID or employee badge to the IT Walk-up Tech Bar located on the 3rd floor to collect your equipment. An IT specialist on-site will assist you with the initial boot-up, password initialization, and Multi-Factor Authentication (MFA) setup."
+    },
+    {
+      "id": "KB-005",
+      "category": "Office Facilities",
+      "topic": "Parking Instructions",
+      "question": "How do employees park? How can I apply for a parking permit?",
+      "answer": "The company provides free underground parking for all employees. After onboarding, please log into the company's facilities management system (https://facilities.internal.corp), access the \"Parking Management\" module, and register your license plate number, vehicle make, and color. The system typically activates your license plate recognition access within 24 hours. **Parking Rules**: Please be sure to park your vehicle in the \"Employee Only\" spots on levels B2 or B3. Regular employees are strictly prohibited from using spots on level B1 marked as \"Visitor\", accessible parking, or \"Reserved\" for executives. Violating these rules may result in your vehicle being towed directly at your own expense."
+    },
+    {
+      "id": "KB-006",
+      "category": "Human Resources",
+      "topic": "Working Hours",
+      "question": "What are the standard working hours of the company? Is there a flexible work schedule?",
+      "answer": "The company's standard working hours are from 9:00 AM to 5:00 PM, Monday through Friday, including a one-hour lunch break. We operate on a flexible work schedule, with Core Hours from 10:00 AM to 3:00 PM. All employees must be online or in the office during core hours for team meetings and communication. You can flexibly adjust your commute times within this framework after consulting with your direct manager."
+    },
+    {
+      "id": "KB-007",
+      "category": "Human Resources",
+      "topic": "Remote Work Policy",
+      "question": "What is the company's Remote Work (WFH) policy?",
+      "answer": "The company currently operates on a Hybrid Model. Full-time employees are required to work from the office at least 3 days a week (typically Tuesdays and Wednesdays are mandatory \"Team Collaboration Days\"). For the remaining 2 days, you can choose to work from home or come into the office. Please ensure you clearly mark your work location on your Outlook calendar and internal communication app status so your colleagues are aware of your schedule."
+    },
+    {
+      "id": "KB-008",
+      "category": "Human Resources",
+      "topic": "Leave Requests",
+      "question": "How should I request annual leave or report sick leave?",
+      "answer": "All leave requests (including Paid Time Off/PTO, Sick Leave, and personal leave) must be submitted through our internal HR system (https://hr.internal.corp/leave). Annual leave requests require submission to your direct manager at least two weeks in advance. If you need to take sick leave due to sudden illness, please notify your manager via phone, text, or internal chat tool before 9:00 AM on that day, and retroactively log the sick leave record in the system within three working days upon your return."
+    },
+    {
+      "id": "KB-009",
+      "category": "Human Resources",
+      "topic": "Benefits Enrollment",
+      "question": "When and how do new employees enroll in medical, dental, and other insurance benefits?",
+      "answer": "New employees are eligible for the company's comprehensive benefits package after completing their three-month probationary period. The HR department will send an email with an exclusive registration link for the Sun Life benefits portal two weeks before your probation ends. You must log into the system within 14 calendar days of receiving the email to bind dependent information, confirm beneficiaries, and select the corresponding medical and dental insurance plan options based on your personal needs."
+    },
+    {
+      "id": "KB-010",
+      "category": "Office Facilities",
+      "topic": "Office Supplies",
+      "question": "How do I request daily office supplies like notebooks, pens, ergonomic mice, etc.?",
+      "answer": "Standard basic office supplies (such as various pens, notepads, staplers, sticky notes, etc.) are uniformly placed in the open storage cabinets next to the copiers on each floor, and employees can take what they need for work. If you need to request special office supplies, ergonomic equipment (like specialized keyboards or lumbar supports), or specific IT adapter cables, please submit a \"Special Supply Request\" on the facilities procurement portal (https://facilities.internal.corp/supplies). Once approved by your manager, the administrative department will deliver it to your desk within two working days."
+    },
+    {
+      "id": "KB-011",
+      "category": "Health & Safety",
+      "topic": "Emergency Evacuation",
+      "question": "What should I do if the building fire alarm goes off? Where is the emergency muster point?",
+      "answer": "Safety first! When you hear the fire alarm, please immediately stop all work at hand, take your personal valuables with you (only items within arm's reach; do not return to your desk to retrieve items), and absolutely do not use the elevators. Please proceed downstairs in an orderly manner using the nearest fire stairs with illuminated signs. Our building's official emergency Muster Point is located at the central fountain plaza outside the main entrance of the campus. Once you arrive at the muster point, please immediately locate your department's Fire Warden, who will be wearing a yellow reflective vest, to sign in. No one is permitted to re-enter the building until a clear \"all safe\" instruction is given by building management and the security team."
+    }
+  ]
+}
