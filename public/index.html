@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>General knowledge</title>
+    <title>General knowledge - DEMO</title>
     <style>
         body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background: #f0f2f5; }
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        /* 新增的警告横幅样式 */
+        .warning-banner { background: #fff3cd; color: #856404; padding: 15px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #ffeeba; text-align: center; font-weight: bold; font-size: 0.95em; line-height: 1.4; }
         input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
         button:disabled { background: #ccc; }
-        #output { margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 6px; white-space: pre-wrap; line-height: 1.5; }
+        #output { margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 6px; white-space: pre-wrap; line-height: 1.5; color: #555; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Ask a question(DEMO, no real information included)</h2>
+        <h2>Ask a question</h2>
         
-        <input type="text" id="userInput" placeholder="Type your question here...">
-        <button id="sendBtn">Submit </button>
+        <div class="warning-banner">
+            ⚠️ DEMO ONLY ⚠️<br>
+            This is a demonstration interface. NO real information is included, processed, or stored here.
+        </div>
+        
+        <input type="text" id="userInput" placeholder="Type your question here (Demo purposes only)...">
+        <button id="sendBtn">Submit</button>
 
-        <div id="output">Result will appear here...</div>
+        <div id="output">Result will appear here... (Simulated environment)</div>
     </div>
 
     <script>
@@ -34,7 +41,7 @@
 
             sendBtn.disabled = true;
             sendBtn.innerText = "Thinking...";
-            output.innerText = "Requesting server...";
+            output.innerText = "Requesting server... (Mock request)";
 
             try {
                 const res = await fetch('/api/chat', {
@@ -50,7 +57,8 @@
                     output.innerText = "Error: " + data.error;
                 }
             } catch (err) {
-                output.innerText = "Network Error.";
+                // 进一步强调如果在没有真实后端时报错也是正常的
+                output.innerText = "Network Error.\n(This is expected in a demo without a real backend connection.)";
             } finally {
                 sendBtn.disabled = false;
                 sendBtn.innerText = "Submit";
